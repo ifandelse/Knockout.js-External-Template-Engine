@@ -1,0 +1,8 @@
+<ul>
+    <li>
+        <span data-bind="text: Name"></span>
+        {{each(i, child) Children}}
+            <span data-bind="template: {name: 'Employee', data: child}"></span>
+        {{/each}}
+    </li>
+</ul>

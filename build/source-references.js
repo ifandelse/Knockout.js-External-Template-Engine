@@ -1,0 +1,3 @@
+knockoutDebugCallback([
+    'src/koAsyncTemplateEngine.js'
+]);

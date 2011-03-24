@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="jquery-1.5.js"></script>
+    <script type="text/javascript" src="jquery.tmpl.js"></script>
+    <script type="text/javascript" src="knockout-latest.debug.js"></script>
+    <script type="text/javascript" src="koAsyncTemplateEngine.js"></script>
+    <script type="text/javascript">
+        // Simple view model.  This is a one-way binding example (i.e. - none of the members are observable)
+        var viewModel = {
+                Companies: [
+                {
+                    CompanyName: "ACME",
+                    Employees: {
+                                Name: "Bugs Bunny",
+                                Children: [
+                                    {
+                                        Name: "Peeps",
+                                        Children: [
+                                            {Name: "Yosemite Sam"},
+                                            {Name: "Daffy Duck"},
+                                            {Name: "Tweety Bird"},
+                                            {Name: "Road Runner"}
+                                        ]
+                                    },
+                                    {
+                                        Name: "Wyle E. Coyote"
+                                    }
+                                ]
+                    }
+                },
+                {
+                    CompanyName: "Superfriends",
+                    Employees: {
+                                Name: "Batman",
+                                Children: [
+                                    {
+                                        Name: "Lesser Peeps",
+                                        Children: [
+                                            {
+                                                Name: "Superman",
+                                                Children: [
+                                                    { Name: "Aquaman" }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        Name: "Wonder Woman",
+                                        Children:   [
+                                            {
+                                                Name: "Robin"
+                                            }
+                                        ]
+                                    }
+                                ]
+                    }
+                }
+            ]
+        };
+        $(function() {
+            // demonstrating that templates can be called from a different path
+            // than this html file was delivered from (same server, of course)
+            // and also that special template file naming conventions can still
+            // be used without cluttering up the name of the template itself.
+            asyncjQueryTemplateEngine.templateUrl = "Templates"; // indicates a Templates subdirectory
+            asyncjQueryTemplateEngine.templatePrefix = "tmpl";
+            asyncjQueryTemplateEngine.templateSuffix = ".tpl.html";
+            asyncjQueryTemplateEngine.useDefaultErrorTemplate = false;
+            ko.applyBindings(viewModel);
+        })
+    </script>
+</head>
+<body>
+    <!-- Thanks to the prefix, suffix and url settings above, the "Master" template will be pulled down from Templates/tmplMaster.tpl.html -->
+    <div data-bind="template: {name: 'Master', data: viewModel}"/>
+</body>
+</html>
