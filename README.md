@@ -4,7 +4,7 @@ The Knockout.js External Template Engine extends the original Knockout.js jQuery
 PLEASE go check out knockoutjs.com.  Knockout.js is a powerful MVVM framework for building web apps using HTML/JavaScript/CSS.
 Many kudos and high fives to Steve Sanderson for creating such a clean and powerful framework!
 
-# Prerequisities
+# Prerequisites
 * Knockout.js 1.2.0pre or later
 * jQuery 1.5 or later
 * jquery.tmpl.js (jQuery templating)
