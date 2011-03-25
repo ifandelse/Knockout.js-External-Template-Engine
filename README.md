@@ -23,3 +23,7 @@ Many kudos and high fives to Steve Sanderson for creating such a clean and power
 
 # Get Going!
 Thanks to Steve Sanderson's hard work, nested templates already worked in Knockout.js, and by extension, my external template engine plugin for Knockout.js supports nested templates as well.
+
+# Oh, and One More Thing
+"Why are you using the object['function'] syntax so much??"
+Answer: Because the minifier being used won't minify function calls expressed that way.  This keeps me from breaking calls to the jQuery or Knockout.js APIs, etc.
