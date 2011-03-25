@@ -1,7 +1,7 @@
 #!/bin/sh
 
-OutDebugFile='output/koAsyncTemplateEngine.debug.js'
-OutMinFile='output/koAsyncTemplateEngine.js'
+OutDebugFile='output/koExternalTemplateEngine.debug.js'
+OutMinFile='output/koExternalTemplateEngine.js'
 
 # Combine the source files
 SourceFiles=`grep js < source-references.js | # Find JS references 

@@ -1,6 +1,6 @@
 @echo off 
-set OutDebugFile=output\koAsyncTemplateEngine.debug.js
-set OutMinFile=output\koAsyncTemplateEngine.js
+set OutDebugFile=output\koExternalTemplateEngine.debug.js
+set OutMinFile=output\koExternalTemplateEngine.js
 set AllFiles=
 for /f "eol=] skip=1 delims=' " %%i in (source-references.js) do set Filename=%%i& call :Concatenate 
 

@@ -1,3 +1,3 @@
 knockoutDebugCallback([
-    'src/koAsyncTemplateEngine.js'
+    'src/koExternalTemplateEngine.js'
 ]);

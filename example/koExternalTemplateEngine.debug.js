@@ -1,3 +1,8 @@
+// Knockout External jQuery Template Engine
+// Author: Jim Cowart (primarily tweaking Steve Sanderson's original [and already awesome] template engine)
+// License: Ms-Pl (http://www.opensource.org/licenses/ms-pl.html)
+// Version 1.0
+(function(window,undefined){ 
 /**
  * Created by Jim Cowart/Steve Sanderson
  * Date: 3/22/11
@@ -5,12 +10,12 @@
  */
 if(typeof ko == "undefined")
 {
-    throw "You must reference Knockout.js in order for the ko.asyncjQueryTemplateEngine to work.";
+    throw "You must reference Knockout.js in order for the ko.externaljQueryTemplateEngine to work.";
 }
 else
 {
-    ko.asyncjQueryTemplateEngine = function () {
-        // Detect which version of jquery-tmpl you're usaing. Unfortunately jquery-tmpl
+    ko.externaljQueryTemplateEngine = function () {
+        // Detect which version of jquery-tmpl you're using. Unfortunately jquery-tmpl
         // doesn't expose a version number, so we have to infer it.
         this.jQueryTmplVersion = (function() {
             if ((typeof(jQuery) == "undefined") || !jQuery['tmpl'])
@@ -44,12 +49,14 @@ else
         this['templatePrefix'] = "",
 
         //  Allows you to use a default "error" template to display when templates cannot be found.
+        //  If you choose to not use the default error template, a js error will be thrown - be sure to use Chrome or Firefox's debugging tools to catch this!
         this['useDefaultErrorTemplate'] = true,
 
         // The html of the template to use for the default error template
+        // Keep in mind this is a 'public' member, so you can override this with your own default error template.
         this['defaultErrorTemplateHtml'] = "<div style='font-style: italic;'>The template could not be loaded.  HTTP Status code: {STATUSCODE}.</div>",
 
-        //  This function is the primary difference between the normal KO jQuery template engine and the async version.
+        //  This function is the primary difference between the normal KO jQuery template engine and the external template version.
         //  Since we are lazy-loading templates on-demand, they don't exist in the DOM yet.  We make a request to the server
         //  for the static resource and then place the contents in a new <script> tag, with the id attribute set to the templateId.
         //  That way, the remaining logic behind the default KO jQuery template engine works as if the template existed in the
@@ -93,7 +100,7 @@ else
         this['renderTemplate'] = function (templateId, data, options) {
             options = options || {};
             if (this.jQueryTmplVersion == 0)
-                throw new Error("jquery.tmpl not detected.\nTo use KO's default template engine, reference jQuery and jquery.tmpl. See Knockout installation documentation for more details.");
+                throw new Error("jquery.tmpl not detected.\nTo use the External jQuery Template Engine, reference jQuery and jquery.tmpl. See Knockout installation documentation for more details.");
 
             if (this.jQueryTmplVersion == 1) {
                 // jquery.tmpl v1 doesn't like it if the template returns just text content or nothing - it only likes you to return DOM nodes.
@@ -170,8 +177,8 @@ else
         }
     };
 }
-ko.asyncjQueryTemplateEngine.prototype = new ko['templateEngine']();
+ko.externaljQueryTemplateEngine.prototype = new ko['templateEngine']();
 // Giving you an easy handle to set member values like templateUrl, templatePrefix and templateSuffix.
-asyncjQueryTemplateEngine = new ko.asyncjQueryTemplateEngine();
+externaljQueryTemplateEngine = new ko.externaljQueryTemplateEngine();
  // overrides the default template engine KO normally wires up.
-ko['setTemplateEngine'](asyncjQueryTemplateEngine);
+ko['setTemplateEngine'](externaljQueryTemplateEngine);})(window);                  

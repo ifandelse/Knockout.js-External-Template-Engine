@@ -6,7 +6,7 @@
     <script type="text/javascript" src="jquery-1.5.js"></script>
     <script type="text/javascript" src="jquery.tmpl.js"></script>
     <script type="text/javascript" src="knockout-latest.debug.js"></script>
-    <script type="text/javascript" src="koAsyncTemplateEngine.js"></script>
+    <script type="text/javascript" src="koExternalTemplateEngine.js"></script>
     <script type="text/javascript">
         // Simple view model.  This is a one-way binding example (i.e. - none of the members are observable)
         var viewModel = {
@@ -19,14 +19,17 @@
                                     {
                                         Name: "Peeps",
                                         Children: [
-                                            {Name: "Yosemite Sam"},
                                             {Name: "Daffy Duck"},
                                             {Name: "Tweety Bird"},
                                             {Name: "Road Runner"}
                                         ]
                                     },
                                     {
-                                        Name: "Wyle E. Coyote"
+                                        Name: "Always Getting the Short End of the Stick",
+                                        Children: [
+                                            {Name: "Yosemite Sam"},
+                                            {Name: "Wyle E. Coyote"}
+                                        ]
                                     }
                                 ]
                     }
@@ -65,10 +68,10 @@
             // than this html file was delivered from (same server, of course)
             // and also that special template file naming conventions can still
             // be used without cluttering up the name of the template itself.
-            asyncjQueryTemplateEngine.templateUrl = "Templates"; // indicates a Templates subdirectory
-            asyncjQueryTemplateEngine.templatePrefix = "tmpl";
-            asyncjQueryTemplateEngine.templateSuffix = ".tpl.html";
-            asyncjQueryTemplateEngine.useDefaultErrorTemplate = false;
+            externaljQueryTemplateEngine.templateUrl = "Templates"; // indicates a Templates subdirectory
+            externaljQueryTemplateEngine.templatePrefix = "tmpl";
+            externaljQueryTemplateEngine.templateSuffix = ".tpl.html";
+            externaljQueryTemplateEngine.useDefaultErrorTemplate = false;
             ko.applyBindings(viewModel);
         })
     </script>
