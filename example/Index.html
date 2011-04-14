@@ -19,16 +19,31 @@
                                     {
                                         Name: "Peeps",
                                         Children: [
-                                            {Name: "Daffy Duck"},
-                                            {Name: "Tweety Bird"},
-                                            {Name: "Road Runner"}
+                                            {
+                                                Name: "Daffy Duck",
+                                                Children: []
+                                            },
+                                            {
+                                                Name: "Tweety Bird",
+                                                Children: []
+                                            },
+                                            {
+                                                Name: "Road Runner",
+                                                Children: []
+                                            }
                                         ]
                                     },
                                     {
                                         Name: "Always Getting the Short End of the Stick",
                                         Children: [
-                                            {Name: "Yosemite Sam"},
-                                            {Name: "Wyle E. Coyote"}
+                                            {
+                                                Name: "Yosemite Sam",
+                                                Children: []
+                                            },
+                                            {
+                                                Name: "Wyle E. Coyote",
+                                                Children: []
+                                            }
                                         ]
                                     }
                                 ]
@@ -45,7 +60,10 @@
                                             {
                                                 Name: "Superman",
                                                 Children: [
-                                                    { Name: "Aquaman" }
+                                                    {
+                                                        Name: "Aquaman",
+                                                        Children: []
+                                                    }
                                                 ]
                                             }
                                         ]
@@ -54,7 +72,8 @@
                                         Name: "Wonder Woman",
                                         Children:   [
                                             {
-                                                Name: "Robin"
+                                                Name: "Robin",
+                                                Children: []
                                             }
                                         ]
                                     }
@@ -71,7 +90,6 @@
             externaljQueryTemplateEngine.templateUrl = "Templates"; // indicates a Templates subdirectory
             externaljQueryTemplateEngine.templatePrefix = "tmpl";
             externaljQueryTemplateEngine.templateSuffix = ".tpl.html";
-            externaljQueryTemplateEngine.useDefaultErrorTemplate = false;
             ko.applyBindings(viewModel);
         })
     </script>

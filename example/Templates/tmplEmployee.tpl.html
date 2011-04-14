@@ -1,8 +1,6 @@
 <ul>
     <li>
         <span data-bind="text: Name"></span>
-        {{each(i, child) Children}}
-            <span data-bind="template: {name: 'Employee', data: child}"></span>
-        {{/each}}
+            <span data-bind="template: {name: 'Employee', foreach: Children}"></span>
     </li>
 </ul>
