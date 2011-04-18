@@ -1,6 +1,6 @@
-// Knockout JavaScript library v1.2.0pre
-// (c) 2010 Steven Sanderson - http://knockoutjs.com/
-// License: Ms-Pl (http://www.opensource.org/licenses/ms-pl.html)
+// Knockout JavaScript library v1.2.0rc
+// (c) Steven Sanderson - http://knockoutjs.com/
+// License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
 (function(window,undefined){ 
 var ko = window["ko"] = {};
@@ -19,6 +19,13 @@ ko.utils = new (function () {
     var stringTrimRegex = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
     var isIe6 = /MSIE 6/i.test(navigator.userAgent);
     var isIe7 = /MSIE 7/i.test(navigator.userAgent);
+
+    function isClickOnCheckableElement(element, eventType) {
+        if ((element.tagName != "INPUT") || !element.type) return false;
+        if (eventType.toLowerCase() != "click") return false;
+        var inputType = element.type.toLowerCase();
+        return (inputType == "checkbox") || (inputType == "radio");
+    }
     
     return {
         fieldsIncludedWithJsonPost: ['authenticity_token', /^__RequestVerificationToken(_.*)?$/],
@@ -174,9 +181,23 @@ ko.utils = new (function () {
         },
 
         registerEventHandler: function (element, eventType, handler) {
-            if (typeof jQuery != "undefined")
+            if (typeof jQuery != "undefined") {
+                if (isClickOnCheckableElement(element, eventType)) {
+                    // For click events on checkboxes, jQuery interferes with the event handling in an awkward way:
+                    // it toggles the element checked state *after* the click event handlers run, whereas native
+                    // click events toggle the checked state *before* the event handler. 
+                    // Fix this by intecepting the handler and applying the correct checkedness before it runs.            	
+                    var originalHandler = handler;
+                    handler = function(event, eventData) {
+                        var jQuerySuppliedCheckedState = this.checked;
+                        if (eventData)
+                            this.checked = eventData.checkedStateBeforeEvent !== true;
+                        originalHandler.call(this, event);
+                        this.checked = jQuerySuppliedCheckedState; // Restore the state jQuery applied
+                    };                	
+                }
                 jQuery(element)['bind'](eventType, handler);
-            else if (typeof element.addEventListener == "function")
+            } else if (typeof element.addEventListener == "function")
                 element.addEventListener(eventType, handler, false);
             else if (typeof element.attachEvent != "undefined")
                 element.attachEvent("on" + eventType, function (event) {
@@ -190,7 +211,14 @@ ko.utils = new (function () {
             if (!(element && element.nodeType))
                 throw new Error("element must be a DOM node when calling triggerEvent");
 
-            if (typeof document.createEvent == "function") {
+            if (typeof jQuery != "undefined") {
+                var eventData = [];
+                if (isClickOnCheckableElement(element, eventType)) {
+                    // Work around the jQuery "click events on checkboxes" issue described above by storing the original checked state before triggering the handler
+                    eventData.push({ checkedStateBeforeEvent: element.checked });
+                }
+                jQuery(element)['trigger'](eventType, eventData);
+            } else if (typeof document.createEvent == "function") {
                 if (typeof element.dispatchEvent == "function") {
                     var eventCategory = (eventType == "click" ? "MouseEvents" : "HTMLEvents"); // Might need to account for other event names at some point
                     var event = document.createEvent(eventCategory);
@@ -337,6 +365,7 @@ ko.exportSymbol('ko.utils.arrayMap', ko.utils.arrayMap);
 ko.exportSymbol('ko.utils.arrayPushAll', ko.utils.arrayPushAll);
 ko.exportSymbol('ko.utils.arrayRemoveItem', ko.utils.arrayRemoveItem);
 ko.exportSymbol('ko.utils.fieldsIncludedWithJsonPost', ko.utils.fieldsIncludedWithJsonPost);
+ko.exportSymbol('ko.utils.getElementsHavingAttribute', ko.utils.getElementsHavingAttribute);
 ko.exportSymbol('ko.utils.getFormFields', ko.utils.getFormFields);
 ko.exportSymbol('ko.utils.postJson', ko.utils.postJson);
 ko.exportSymbol('ko.utils.parseJson', ko.utils.parseJson);
@@ -551,7 +580,7 @@ ko.subscribable = function () {
     var _subscriptions = [];
 
     this.subscribe = function (callback, callbackTarget) {
-        var boundCallback = callbackTarget ? function () { callback.call(callbackTarget) } : callback;
+        var boundCallback = callbackTarget ? callback.bind(callbackTarget) : callback;
 
         var subscription = new ko.subscription(boundCallback, function () {
             ko.utils.arrayRemoveItem(_subscriptions, subscription);
@@ -653,6 +682,12 @@ ko.exportSymbol('ko.isObservable', ko.isObservable);
 ko.exportSymbol('ko.isWriteableObservable', ko.isWriteableObservable);
 
 ko.observableArray = function (initialValues) {
+    if (arguments.length == 0) {
+        // Zero-parameter constructor initializes to empty array
+        initialValues = [];
+    }
+    if ((initialValues !== null) && (initialValues !== undefined) && !('length' in initialValues))
+        throw new "The argument passed when initializing an observable array must be an array, or null, or undefined.";
     var result = new ko.observable(initialValues);
 
     ko.utils.arrayForEach(["pop", "push", "reverse", "shift", "sort", "splice", "unshift"], function (methodName) {
@@ -1101,7 +1136,7 @@ ko.exportSymbol('ko.jsonExpressionRewriting.parseJson', ko.jsonExpressionRewriti
 ko.exportSymbol('ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson', ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson);
 
 (function () {
-    var bindingAttributeName = "data-bind";
+    var defaultBindingAttributeName = "data-bind";
     ko.bindingHandlers = {};
 
     function parseBindingAttribute(attributeText, viewModel) {
@@ -1117,8 +1152,9 @@ ko.exportSymbol('ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson', ko
         handler(element, dataValue, allBindings, viewModel);
     }
 
-    ko.applyBindingsToNode = function (node, bindings, viewModel) {
+    ko.applyBindingsToNode = function (node, bindings, viewModel, bindingAttributeName) {
         var isFirstEvaluation = true;
+        bindingAttributeName = bindingAttributeName || defaultBindingAttributeName;
 
         // Each time the dependentObservable is evaluated (after data changes),
         // the binding attribute is reparsed so that it can pick out the correct
@@ -1164,7 +1200,7 @@ ko.exportSymbol('ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson', ko
             throw new Error("ko.applyBindings: first parameter should be your view model; second parameter should be a DOM node (note: this is a breaking change since KO version 1.05)");
         rootNode = rootNode || window.document.body; // Make "rootNode" parameter optional
                 
-        var elemsWithBindingAttribute = ko.utils.getElementsHavingAttribute(rootNode, bindingAttributeName);
+        var elemsWithBindingAttribute = ko.utils.getElementsHavingAttribute(rootNode, defaultBindingAttributeName);
         ko.utils.arrayForEach(elemsWithBindingAttribute, function (element) {
             ko.applyBindingsToNode(element, null, viewModel);
         });
@@ -1172,6 +1208,7 @@ ko.exportSymbol('ko.jsonExpressionRewriting.insertPropertyAccessorsIntoJson', ko
     
     ko.exportSymbol('ko.bindingHandlers', ko.bindingHandlers);
     ko.exportSymbol('ko.applyBindings', ko.applyBindings);
+    ko.exportSymbol('ko.applyBindingsToNode', ko.applyBindingsToNode);
 })();// For certain common events (currently just 'click'), allow a simplified data-binding syntax
 // e.g. click:handler instead of the usual full-length event:{click:handler}
 var eventHandlersWithShortcuts = ['click'];
@@ -1524,7 +1561,6 @@ ko.bindingHandlers['checked'] = {
                 }
             }
         };
-        ko.utils.registerEventHandler(element, "change", updateHandler);
         ko.utils.registerEventHandler(element, "click", updateHandler);
 
         // IE 6 won't allow radio buttons to be selected unless they have a name
@@ -1989,7 +2025,7 @@ ko.jqueryTmplTemplateEngine = function () {
         return 1; // Very old version doesn't have an extensible tag system
     })();
 
-    function getTemplateNode(template) {
+    this['getTemplateNode'] = function(template) {
         var templateNode = document.getElementById(template);
         if (templateNode == null)
             throw new Error("Cannot find template with ID=" + template);
@@ -2010,7 +2046,7 @@ ko.jqueryTmplTemplateEngine = function () {
             // To make things more flexible, we can wrap the whole template in a <script> node so that jquery.tmpl just processes it as
             // text and doesn't try to parse the output. Then, since jquery.tmpl has jQuery as a dependency anyway, we can use jQuery to
             // parse that text into a document fragment using jQuery.clean().        
-            var templateTextInWrapper = "<script type=\"text/html\">" + getTemplateNode(templateId).text + "</script>";
+            var templateTextInWrapper = "<script type=\"text/html\">" + this['getTemplateNode'](templateId).text + "</script>";
             var renderedMarkupInWrapper = jQuery['tmpl'](templateTextInWrapper, data);
             var renderedMarkup = renderedMarkupInWrapper[0].text.replace(aposRegex, "'");;
             return jQuery['clean']([renderedMarkup], document);
@@ -2019,7 +2055,7 @@ ko.jqueryTmplTemplateEngine = function () {
         // It's easier with jquery.tmpl v2 and later - it handles any DOM structure
         if (!(templateId in jQuery['template'])) {
             // Precache a precompiled version of this template (don't want to reparse on every render)
-            var templateText = getTemplateNode(templateId).text;
+            var templateText = this['getTemplateNode'](templateId).text;
             jQuery['template'](templateId, templateText);
         }        
         data = [data]; // Prewrap the data in an array to stop jquery.tmpl from trying to unwrap any arrays
@@ -2036,11 +2072,11 @@ ko.jqueryTmplTemplateEngine = function () {
         if (templateId in jQuery['template'])
             return true;
         
-        return getTemplateNode(templateId).isRewritten === true;
+        return this['getTemplateNode'](templateId).isRewritten === true;
     },
 
     this['rewriteTemplate'] = function (template, rewriterCallback) {
-        var templateNode = getTemplateNode(template);
+        var templateNode = this['getTemplateNode'](template);
         var rewritten = rewriterCallback(templateNode.text);     
         
         if (this.jQueryTmplVersion == 1) {
