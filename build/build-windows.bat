@@ -32,3 +32,6 @@ echo (function(window,undefined){ >> %OutMinFile%
 type %OutMinFile%.temp		  	  >> %OutMinFile%
 echo })(window);                  >> %OutMinFile%
 del %OutMinFile%.temp
+
+xcopy %OutDebugFile% "..\example\koExternalTemplateEngine.debug.js" /Y
+xcopy %OutMinFile% "..\example\koExternalTemplateEngine.js" /Y

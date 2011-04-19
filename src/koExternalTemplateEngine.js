@@ -1,13 +1,13 @@
 if(typeof ko == "undefined")
 {
-    throw "You must reference Knockout.js in order for the ko.externaljQueryTemplateEngine to work.";
+    throw "You must reference Knockout.js in order for the ko.ExternaljQueryTemplateEngine to work.";
 }
 else
 {
-    ko.externaljQueryTemplateEngine = function () {
+    ko['ExternaljQueryTemplateEngine'] = function () {
 
         // We want the original jQuery template engine's behavior - with some tweaks to follow
-        ko.jqueryTmplTemplateEngine.call(this, arguments);
+        ko['jqueryTmplTemplateEngine']['call'](this, arguments);
 
         // By default templates are pulled from the same server path as the html file making the request.
         // If you keep your templates in a separate directory, specify it here as a relative path to the html document making the request
@@ -41,7 +41,7 @@ else
             var node = document.getElementById(templateId);
             if(node == null)
             {
-                var templatePath = this['getTemplatePath'](templateId);
+                var templatePath = this.getTemplatePath(templateId);
                 var templateHtml = null;
                 $['ajax']({
                     "url":templatePath,
@@ -64,7 +64,7 @@ else
                                              "type": "text/html",
                                              "id":templateId,
                                              "text":templateHtml
-                                          }).appendTo("body");
+                                          })['appendTo']("body");
 
 
             }
@@ -75,11 +75,32 @@ else
             var templateFile = this['templatePrefix'] + templateId + this['templateSuffix'];
             var templateSrc = this['templateUrl'] == undefined || this['templateUrl'] == "" ? templateFile : this['templateUrl'] + "/" + templateFile;
             return templateSrc;
+        },
+
+        this['setOptions'] = function(options) {
+            if(options['templateUrl']) {
+                this['templateUrl'] = options['templateUrl'];
+            }
+            if(options['templatePrefix']) {
+                this['templatePrefix'] = options['templatePrefix']
+            }
+            if(options['templateSuffix']) {
+                this['templateSuffix'] = options['templateSuffix']
+            }
+            if(options['useDefaultErrorTemplate']) {
+                this['useDefaultErrorTemplate'] = options['useDefaultErrorTemplate']
+            }
+            if(options['defaultErrorTemplateHtml']) {
+                this['defaultErrorTemplateHtml'] = options['defaultErrorTemplateHtml']
+            }
+            if(options['timeout']) {
+                this['timeout'] = options['timeout']
+            }
         }
     };
-    ko.externaljQueryTemplateEngine.prototype = new ko['templateEngine']();
+    ko['ExternaljQueryTemplateEngine'].prototype = new ko['templateEngine']();
     // Giving you an easy handle to set member values like templateUrl, templatePrefix and templateSuffix.
-    externaljQueryTemplateEngine = new ko.externaljQueryTemplateEngine();
+    ko['externaljQueryTemplateEngine'] = new ko['ExternaljQueryTemplateEngine']();
      // overrides the default template engine KO normally wires up.
-    ko['setTemplateEngine'](externaljQueryTemplateEngine);
+    ko['setTemplateEngine'](ko['externaljQueryTemplateEngine']);
 }

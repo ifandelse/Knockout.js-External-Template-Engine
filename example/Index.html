@@ -87,9 +87,11 @@
             // than this html file was delivered from (same server, of course)
             // and also that special template file naming conventions can still
             // be used without cluttering up the name of the template itself.
-            externaljQueryTemplateEngine.templateUrl = "Templates"; // indicates a Templates subdirectory
-            externaljQueryTemplateEngine.templatePrefix = "tmpl";
-            externaljQueryTemplateEngine.templateSuffix = ".tpl.html";
+            ko.externaljQueryTemplateEngine.setOptions({
+                                                            templateUrl: "Templates",
+                                                            templatePrefix: "tmpl",
+                                                            templateSuffix: ".tpl.html"
+                                                       });
             ko.applyBindings(viewModel);
         })
     </script>
