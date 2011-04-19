@@ -83,24 +83,7 @@ else
         },
 
         this['setOptions'] = function(options) {
-            if(options['templateUrl']) {
-                this['templateUrl'] = options['templateUrl'];
-            }
-            if(options['templatePrefix']) {
-                this['templatePrefix'] = options['templatePrefix']
-            }
-            if(options['templateSuffix']) {
-                this['templateSuffix'] = options['templateSuffix']
-            }
-            if(options['useDefaultErrorTemplate']) {
-                this['useDefaultErrorTemplate'] = options['useDefaultErrorTemplate']
-            }
-            if(options['defaultErrorTemplateHtml']) {
-                this['defaultErrorTemplateHtml'] = options['defaultErrorTemplateHtml']
-            }
-            if(options['timeout']) {
-                this['timeout'] = options['timeout']
-            }
+            $['extend'](this,options);
         }
     };
     ko['ExternaljQueryTemplateEngine'].prototype = new ko['templateEngine']();
