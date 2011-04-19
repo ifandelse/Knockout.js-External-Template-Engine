@@ -2025,7 +2025,7 @@ ko.jqueryTmplTemplateEngine = function () {
         return 1; // Very old version doesn't have an extensible tag system
     })();
 
-    this['getTemplateNode'] = function(template) {
+    this['getTemplateNode'] = function (template) {
         var templateNode = document.getElementById(template);
         if (templateNode == null)
             throw new Error("Cannot find template with ID=" + template);
