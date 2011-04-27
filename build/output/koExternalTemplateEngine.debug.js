@@ -46,7 +46,7 @@ else
             var node = document.getElementById(templateId);
             if(node == null)
             {
-                var templatePath = this.getTemplatePath(templateId);
+                var templatePath = this['getTemplatePath'](templateId, this['templatePrefix'], this['templateSuffix'], this['templateUrl']);
                 var templateHtml = null;
                 $['ajax']({
                     "url":templatePath,
@@ -76,9 +76,11 @@ else
             return node;
         },
 
-        this.getTemplatePath = function(templateId) {
-            var templateFile = this['templatePrefix'] + templateId + this['templateSuffix'];
-            var templateSrc = this['templateUrl'] == undefined || this['templateUrl'] == "" ? templateFile : this['templateUrl'] + "/" + templateFile;
+        // Since getTemplatePath is published as a public member of this, it can be overridden with custom functionality
+        // If you want to override it, simply include a new "getTemplatePath" definition as part of the options hash you pass to setOptions
+        this['getTemplatePath'] = function(templateId, templatePrefix, templateSuffix, templateUrl) {
+            var templateFile = templatePrefix + templateId + templateSuffix;
+            var templateSrc = templateUrl === undefined || templateUrl === "" ? templateFile : templateUrl + "/" + templateFile;
             return templateSrc;
         },
 

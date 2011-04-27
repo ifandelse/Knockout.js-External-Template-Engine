@@ -88,9 +88,15 @@
             // and also that special template file naming conventions can still
             // be used without cluttering up the name of the template itself.
             ko.externaljQueryTemplateEngine.setOptions({
-                                                            templateUrl: "Templates",
+                                                            templateUrl: "Templates2",
                                                             templatePrefix: "tmpl",
-                                                            templateSuffix: ".tpl.html"
+                                                            templateSuffix: ".tpl.html",
+                                                            // Silly example showing that the getTemplatePath functionality can be overridden
+                                                            getTemplatePath: function(templateId, templatePrefix, templateSuffix, templateUrl) {
+                                                                var templateFile = templatePrefix + templateId + '.v1' + templateSuffix;
+                                                                var templateSrc = templateUrl === undefined || templateUrl === "" ? templateFile : templateUrl + "/" + templateFile;
+                                                                return templateSrc;
+                                                            }
                                                        });
             ko.applyBindings(viewModel);
         })
