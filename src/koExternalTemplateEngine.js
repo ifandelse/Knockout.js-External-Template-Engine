@@ -29,9 +29,6 @@ else
         // Keep in mind this is a 'public' member, so you can override this with your own default error template.
         this['defaultErrorTemplateHtml'] = "<div style='font-style: italic;'>The template could not be loaded.  HTTP Status code: {STATUSCODE}.</div>",
 
-        // allowing you to provide a timeout (in milliseconds) for the template lookup
-        this['timeout'] = 0, // by default, timeouts are disabled.  Provide a value other than null or 0 and they will be enabled.
-
         // allows you to specify the timeout, dataType, type (HTTP method) and other ajax options for the template request.
         // Note - it does NOT allows you to change the async option.  For now, the requests have to be synchronous.  For now...
         this['ajaxOptions'] = {},
