@@ -60,10 +60,10 @@ else
                 if(templateHtml === null)
                     throw new Error("Cannot find template with ID=" + templateId);
 
-                var node   = document.createElement("script");
-                node.type  = "text/javascript";
-                node.id   = templateId;
-                node.text  = templateHtml;
+                var node = document.createElement("script");
+                node.type = "text/javascript";
+                node.id = templateId;
+                node.text = templateHtml;
                 document.body.appendChild(node); 
             }
             return node;
