@@ -32,6 +32,10 @@ else
         // allowing you to provide a timeout (in milliseconds) for the template lookup
         this['timeout'] = 0, // by default, timeouts are disabled.  Provide a value other than null or 0 and they will be enabled.
 
+        // allows you to specify the timeout, dataType, type (HTTP method) and other ajax options for the template request.
+        // Note - it does NOT allows you to change the async option.  For now, the requests have to be synchronous.  For now...
+        this['ajaxOptions'] = {},
+
         //  This function is the primary difference between the normal KO jQuery template engine and the external template version.
         //  Since we are lazy-loading templates on-demand, they don't exist in the DOM yet.  We make a request to the server
         //  for the static resource and then place the contents in a new <script> tag, with the id attribute set to the templateId.
@@ -43,25 +47,30 @@ else
             {
                 var templatePath = this['getTemplatePath'](templateId, this['templatePrefix'], this['templateSuffix'], this['templateUrl']);
                 var templateHtml = null;
-                $['ajax']({
-                    "url":templatePath,
-                    "async": false,
-                    "dataType": "html",
-                    "type": "GET",
-                    "timeout": this['timeout'],
-                    "success": function(response) { templateHtml = response;},
-                    "error": function(exception) {
-                        if(this['useDefaultErrorTemplate'])
-                            templateHtml = this['defaultErrorTemplateHtml'].replace('{STATUSCODE}', exception.status);
-                    }.bind(this)
 
-                })
+                var options = {
+                                    "url":templatePath,
+                                    "dataType": "html",
+                                    "type": "GET",
+                                    "timeout": 0,
+                                    "success": function(response) { templateHtml = response;},
+                                    "error": function(exception) {
+                                        if(this['useDefaultErrorTemplate'])
+                                            templateHtml = this['defaultErrorTemplateHtml'].replace('{STATUSCODE}', exception.status);
+                                    }.bind(this)
+                              };
+
+                $.extend(true, options, this['ajaxOptions']);
+
+                options["async"] = false;
+
+                $['ajax'](options);
 
                 if(templateHtml === null)
                     throw new Error("Cannot find template with ID=" + templateId);
 
                 var node = document.createElement("script");
-                node.type = "text/javascript";
+                node.type = "text/html";
                 node.id = templateId;
                 node.text = templateHtml;
                 document.body.appendChild(node); 

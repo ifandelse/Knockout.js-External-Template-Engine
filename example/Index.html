@@ -90,7 +90,13 @@
             ko.externaljQueryTemplateEngine.setOptions({
                                                             templateUrl: "Templates",
                                                             templatePrefix: "tmpl",
-                                                            templateSuffix: ".tpl.html"
+                                                            templateSuffix: ".tpl.html",
+                                                            ajaxOptions: {
+                                                                            beforeSend: function(x,y) {
+                                                                                //uncomment this to verify that you can pass options to the ajax call
+                                                                                //alert('beforeSend was invoked...');
+                                                                            }
+                                                                         }
                                                        });
             ko.applyBindings(viewModel);
         })
