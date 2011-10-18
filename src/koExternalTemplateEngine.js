@@ -27,7 +27,7 @@ else
 
         // The html of the template to use for the default error template
         // Keep in mind this is a 'public' member, so you can override this with your own default error template.
-        this['defaultErrorTemplateHtml'] = "<div style='font-style: italic;'>The template could not be loaded.  HTTP Status code: {STATUSCODE}.</div>",
+        this['defaultErrorTemplateHtml'] = "<div style='font-style: italic;'>The template <a href='{TEMPLATEURL}'>{TEMPLATEID}</a> could not be loaded.  HTTP Status code: {STATUSCODE}.</div>",
 
         // allows you to specify the timeout, dataType, type (HTTP method) and other ajax options for the template request.
         // Note - it does NOT allows you to change the async option.  For now, the requests have to be synchronous.  For now...
@@ -53,7 +53,7 @@ else
                                     "success": function(response) { templateHtml = response;},
                                     "error": function(exception) {
                                         if(this['useDefaultErrorTemplate'])
-                                            templateHtml = this['defaultErrorTemplateHtml'].replace('{STATUSCODE}', exception.status);
+                                            templateHtml = this['defaultErrorTemplateHtml'].replace('{STATUSCODE}', exception.status).replace('{TEMPLATEID}', templateId).replace('{TEMPLATEURL}', templatePath);
                                     }.bind(this)
                               };
 
