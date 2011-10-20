@@ -1,3 +1,6 @@
+# UPDATE:
+I'm currently working on Knockout.js 1.3 beta support.  I've separated the actual fetching behavior into a project called "infuser", and the KO 1.3+ version of this plugin will be an adapter between KO and infuser.  Should be posted soon!
+
 # What Is It
 
 The Knockout.js External Template Engine extends the original Knockout.js jQuery template engine to allow you to load external templates.
