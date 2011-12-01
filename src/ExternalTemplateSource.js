@@ -8,7 +8,10 @@ var ExternalTemplateSource = function(templateId) {
 ko.utils.extend(ExternalTemplateSource.prototype, {
     data: function(key, value) {
         if (arguments.length === 1) {
-           return this.template.data[key];
+            if(key === "precompiled") {
+                this.template();
+            }
+            return this.template.data[key];
         }
         this.template.data[key] = value;
     },
@@ -28,6 +31,7 @@ ko.utils.extend(ExternalTemplateSource.prototype, {
     getTemplate: function() {
         var self = this;
         infuser.get(self.templateId, function(tmpl) {
+            self.data("precompiled",null);
             self.template(tmpl);
             self.loaded = true;
         });
