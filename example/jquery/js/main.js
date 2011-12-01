@@ -28,7 +28,5 @@ $(function() {
         }
     };
 
-    ko.setTemplateEngine(new ko.KoExternalTemplateEngine(ko.jqueryTmplTemplateEngine));
-
     ko.applyBindings(viewModel);
 });

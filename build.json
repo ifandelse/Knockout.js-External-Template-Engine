@@ -6,7 +6,7 @@
     "gzip": {},
     "extensions": { "uglify": "min", "gzip": "gz" },
     "wrap": {
-        "prefix": "(function(global, ko, infuser, undefined) {",
-        "suffix": "ko.KoExternalTemplateEngine = KoExternalTemplateEngine; ko.setTemplateEngine(new KoExternalTemplateEngine()); })(window, ko, infuser);"
+        "prefix": "(function(global, ko, jQuery, infuser, undefined) {",
+        "suffix": "})(window, ko, jQuery, infuser);"
     }
 }
