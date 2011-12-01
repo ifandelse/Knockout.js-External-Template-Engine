@@ -28,7 +28,6 @@ ko.utils.extend(ExternalTemplateSource.prototype, {
     getTemplate: function() {
         var self = this;
         infuser.get(self.templateId, function(tmpl) {
-            self.template.data.isRewritten = false;
             self.template(tmpl);
             self.loaded = true;
         });
