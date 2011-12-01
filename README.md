@@ -29,10 +29,12 @@ You can also use IIS on Windows if you make the root of the repository a virtual
 # Build and Testing Dependencies
 This project uses anvil.js (see http://github.com/arobson/anvil.js) for it's build/combine/minify/etc.  To use anvil, you will need Node.js and npm.
 Two builds are in this project:
+
 * The default build (driven by the build.json file) outputs the koExternalTemplateEngine.js, koExternalTemplateEngine.min.js & koExternalTemplateEngine.min.gz.js files.  Using this file will require you to include TrafficCop and infuser as separate script includes in your page.
 * The "combined" build (driven by the build_combine.json file) outputs koExternalTemplateEngine_all.js, koExternalTemplateEngine_all.min.js & koExternalTemplateEngine_all.min.gz.js - which includes TrafficCop and infuser as part of the output.
 
 To run the build from the command line you do the following (at the project root):
+
 * For the default build: anvil -b 
 * For the combined build : anvil -b "build_combined.json"
 
