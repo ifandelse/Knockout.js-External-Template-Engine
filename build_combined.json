@@ -1,0 +1,12 @@
+{
+    "source": "src-all-build",
+    "output": "lib",
+    "lint": {},
+    "uglify": {},
+    "gzip": {},
+    "extensions": { "uglify": "min", "gzip": "gz" },
+    "wrap": {
+        "prefix": "",
+        "suffix": ""
+    }
+}
