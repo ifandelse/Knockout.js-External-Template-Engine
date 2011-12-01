@@ -1,3 +1,0 @@
-knockoutDebugCallback([
-    'src/koExternalTemplateEngine.js'
-]);

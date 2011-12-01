@@ -1,31 +1,26 @@
-# UPDATE:
-I'm currently working on Knockout.js 1.3 beta support.  I've separated the actual fetching behavior into a project called "infuser", and the KO 1.3+ version of this plugin will be an adapter between KO and infuser.  Should be posted soon!
-
 # What Is It
 
-The Knockout.js External Template Engine extends the original Knockout.js jQuery template engine to allow you to load external templates.
-Knockout.js is a powerful MVVM framework for building web apps using HTML/JavaScript/CSS.
+The Knockout.js External Template Engine extends Knockout.js *native* templates to allow you to load them asynchronously from a remote resource.
+At this time is does not work with jQuery templates (jquery-tmpl).
 
 # Prerequisites
-* Knockout.js 1.2.0pre or later
+* Knockout.js 1.3 or later (you will need to look at the tagged 1.0 version if you need support for older Knockout.js)
 * jQuery 1.5 or later
-* jquery.tmpl.js (jQuery templating)
+* TrafficCop
+* infuser
+
+The dependencies listed above are in the ext folder under in the repository.
 
 # How To Use
 
-* In your HTML file, reference jQuery, jquery.tmpl, knockout.js and the koExternalTemplateEngine.js file
-* By referencing koExternalTemplateEngine.js, you've automatically overridden the default Knockout.js template engine
+* In your HTML file, reference jQuery, knockout.js, TrafficCop, infuser and the koExternalTemplateEngine.js file
+* By referencing koExternalTemplateEngine.js, you've automatically overridden the default Knockout.js template engine and added a new template source
 * Configure the koExternalTemplateEngine:
     * by default, if your external template files have ".html" as the file extension and live in the same directory as the requesting HTML file, then you can simply reference them by name (for example, "CustomerTemplate" will call down a CustomerTemplate.html file).
-    * You can specify a template file suffix (like ".tpl.html") by setting the koExternalTemplateEngine.templateSuffix value
-    * You can specify a template file prefix (like "template_") by setting the koExternalTemplateEngine.templatePrefix value
-    * You can specify a different URL/path to the template files if you prefer to keep them in a different directory than the requesting HTML file by setting the koExternalTemplateEngine.templateUrl value.
-    * You can choose to turn off the default error template by setting koExternalTemplateEngine.useDefaultErrorTemplate to false (it defaults to true)
-    * You can override the default error template html by providing your own custom html string to the koExternalTemplateEngine.defaultErrorTemplateHtml property.
+    * You can specify a template file suffix (like ".tpl.html") by setting the infuser.config.templateSuffix value
+    * You can specify a template file prefix (like "template_") by setting the infuser.config.templatePrefix value
+    * You can specify a different URL/path to the template files if you prefer to keep them in a different directory than the requesting HTML file by setting the infuser.config.templateUrl value.
+    * You can override the default loading template html by providing your own custom html string to the infuser.defaults.loadingTemplate.content property.
 
-# Get Going!
-Thanks to Steve Sanderson's hard work, nested templates already worked in Knockout.js, and by extension, my external template engine plugin for Knockout.js supports nested templates as well.
-
-# Oh, and One More Thing
-"Why are you using the object['function'] syntax so much??"
-Answer: Because the minifier being used won't minify function calls expressed that way.  This keeps me from breaking calls to the jQuery or Knockout.js APIs, etc.
+See the example folder in the project for more information.  You can run the example by running "node nodetesthost.js" at the root of the repository then browsing to example/native/index.html(assuming you have Node.js installed).
+You can also use IIS on Windows if you make the root of the repository a virtual directory and then browse to example/native/index.html.
