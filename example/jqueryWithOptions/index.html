@@ -1,0 +1,17 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Knockout.js jQuery External Templates *With Options* Example</title>
+    <script type="text/javascript" src="../../ext/jquery-1.5.2.js"></script>
+    <script type="text/javascript" src="../../ext/jquery-tmpl.js"></script>
+    <script type="text/javascript" src="../../ext/knockout-latest.debug.js"></script>
+    <script type="text/javascript" src="../../lib/koExternalTemplateEngine_all.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+    <p>This is a contrived example where a color is passed to each template as a templateOption, which is used in the template to affect the font color.<br/>The point of this is to verify that templateOptions work with external templates.</p>
+    Show Edit Templates: <input type="checkbox" data-bind="checked: isEditable" />
+    <ul data-bind="template: { name: whichTemplateToUse, foreach: items , templateOptions: { color: whichColor }}"></ul>
+</body>
+</html>

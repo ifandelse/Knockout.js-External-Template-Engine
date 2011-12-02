@@ -1,0 +1,6 @@
+<li>
+    <input style="color: ${$item.color};" data-bind="value: name" />
+    <div>
+        <ul data-bind="template: { name: 'city_edit', foreach: cities, templateOptions: { color: '${$item.color}' }}"></ul>
+    </div>
+</li>

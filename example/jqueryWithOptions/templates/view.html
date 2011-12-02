@@ -1,0 +1,5 @@
+<li>
+    <span style="color: ${$item.color};">${name}</span>
+    <ul data-bind="template: { name: 'city_view', foreach: cities, templateOptions: { color: '${$item.color}' }}">
+    </ul>
+</li>
