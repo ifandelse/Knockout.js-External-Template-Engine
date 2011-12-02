@@ -1,0 +1,1 @@
+Sample Application that demonstrates the use of external templates in Knockout.js
