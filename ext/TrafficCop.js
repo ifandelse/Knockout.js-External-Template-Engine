@@ -1,10 +1,5 @@
 (function($, undefined) {
-/*
-    Traffic Cop
-    Author: Jim Cowart
-    License: Dual licensed MIT (http://www.opensource.org/licenses/mit-license) & GPL (http://www.opensource.org/licenses/gpl-license)
-    Version 0.1.0
-*/
+
 var inProgress = {};
 
 $.trafficCop = function(url, options) {
@@ -25,17 +20,19 @@ $.trafficCop = function(url, options) {
         traffic = {
             successCallbacks: [reqOptions.success],
             errorCallbacks: [reqOptions.error],
-            success: function(response) {
-                $.each($(inProgress[key].successCallbacks), function(idx,item){ item(response); });
+            success: function() {
+                var args = arguments;
+                $.each($(inProgress[key].successCallbacks), function(idx,item){ item.apply(null, args); });
                 remove();
             },
-            error: function(exception) {
-                $.each($(inProgress[key].errorCallbacks), function(idx,item){ item(exception); });
+            error: function() {
+                var args = arguments;
+                $.each($(inProgress[key].errorCallbacks), function(idx,item){ item.apply(null, args); });
                 remove();
             }
         };
     inProgress[key] = $.extend(true, {}, reqOptions, traffic);
-    $.ajax(inProgress[key]);
+    return $.ajax(inProgress[key]);
 };
 
 })(jQuery);

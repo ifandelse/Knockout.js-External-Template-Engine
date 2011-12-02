@@ -37,9 +37,6 @@ $(function(){
             }
         },
         viewModel = {
-            regions: ko.observableArray(["Southeast", "Mid-West", "West"]),
-            selectedRegion: ko.observable(""),
-            selectedState: ko.observable({}),
             states: [
                 new State("Tennessee", "Southeast", [
                     new City("Nashville", [
