@@ -4,7 +4,7 @@ The Knockout.js External Template Engine extends Knockout.js to allow you to loa
 It currently supports both native and jquery templates.  Special thanks to Ryan Niemeyer for the assistance in getting jquery templates working in this version of the plugin.
 
 # Prerequisites
-* Knockout.js 1.3 or later (you will need to look at the tagged 1.0 version if you need support for older Knockout.js)
+* Knockout.js 2.0 or later (you will need to look at the tagged 1.0 version if you need support for older Knockout.js)
 * jQuery 1.5 or later
 * jquery-tmpl *only if you are using jquery templates*
 * TrafficCop
