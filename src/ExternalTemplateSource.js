@@ -1,7 +1,7 @@
 var ExternalTemplateSource = function(templateId, options) {
     this.templateId = templateId;
     this.loaded = false;
-    this.template = ko.observable(infuser.defaults.loadingTemplate.content);
+    this.template = ko.observable(infuser.defaults.useLoadingTemplate ? infuser.defaults.loadingTemplate.content : undefined);
     this.template.data = {};
     this.options = options || {};
     this.options.templateId = templateId;
