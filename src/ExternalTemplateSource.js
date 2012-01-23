@@ -10,7 +10,7 @@ var ExternalTemplateSource = function(templateId, options) {
         origAfterRender = options.afterRender;
         options.afterRender = function() {
             if(self.loaded) {
-                origAfterRender();
+                origAfterRender.apply(options, arguments);
             }
         }
     }
