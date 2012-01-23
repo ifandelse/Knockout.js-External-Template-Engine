@@ -1,7 +1,7 @@
 $(function() {
-    infuser.config.templateUrl = "templates";
-    //infuser.config.templatePrefix = "SomePrefix"
-    //infuser.config.templateSuffix = "SomeSuffix"
+    infuser.defaults.templateUrl = "templates";
+    //infuser.defaults.templatePrefix = "SomePrefix"
+    //infuser.defaults.templateSuffix = "SomeSuffix"
 
     function State(id, name, cities) {
         return {

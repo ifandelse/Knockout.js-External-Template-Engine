@@ -1,6 +1,6 @@
 <li>
     <input data-bind="value: name" />
     <div>
-        <ul data-bind="template: { name: 'city_edit', foreach: cities}"></ul>
+        <ul data-bind="template: { name: 'city_edit', templatePrefix: 'tmpl_', templateUrl: 'templates/city', foreach: cities}"></ul>
     </div>
 </li>

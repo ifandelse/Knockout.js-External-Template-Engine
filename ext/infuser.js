@@ -51,10 +51,10 @@ var errorHtml = "<div class='infuser-error'>The template <a href='{TEMPLATEURL}'
     },
     errors = [];
 var helpers = {
-    getTemplatePath: function(templateId) {
-        var templateFile = infuser.config.templatePrefix + templateId + infuser.config.templateSuffix;
-        return infuser.config.templateUrl === undefined || infuser.config.templateUrl === "" ?
-                templateFile : infuser.config.templateUrl + "/" + templateFile;
+    getTemplatePath: function(templateOptions) {
+        var templateFile = templateOptions.templatePrefix + templateOptions.templateId + templateOptions.templateSuffix;
+        return templateOptions.templateUrl === undefined || templateOptions.templateUrl === "" ?
+                templateFile : templateOptions.templateUrl + "/" + templateFile;
     },
     templateGetSuccess: function(templateId, callback) {
         return function(response) {
@@ -81,21 +81,23 @@ var infuser = {
 
     store: hashStorage,
 
-    config: {
+    defaults: {
+        // Template name conventions
         templateUrl: "",
         templateSuffix: ".html",
-        templatePrefix: ""
-    },
-
-    defaults: {
+        templatePrefix: "",
+        // AJAX Options
+        "async": true,
+        "dataType": "html",
+        "type": "GET",
+        // infuse() specific options - NOT used for "get" or "getSync"
         target:  function(templateId) { return "#" + templateId }, // DEFAULT MAPPING
         loadingTemplate:    {
                                 content:        '<div class="infuser-loading">Loading...</div>',
-                                transitionIn:   function(target) {
-                                                    var self = this,
-                                                        tgt = $(target);
+                                transitionIn:   function(target, content) {
+                                                    var tgt = $(target);
                                                     tgt.hide();
-                                                    tgt.html(self.content);
+                                                    tgt.html(content);
                                                     tgt.fadeIn();
                                                 },
                                 transitionOut:  function(target) {
@@ -117,76 +119,61 @@ var infuser = {
         useLoadingTemplate: true // true/false
     },
 
-    get: function(templateId, callback) {
-        var template = this.store.getTemplate(templateId),
-            templatePath,
-            options;
-        if(!template || $.inArray(templateId, errors) !== -1) {
-            templatePath = helpers.getTemplatePath(templateId);
-            options = {
-                        "async": true,
-                        "url":templatePath,
-                        "dataType": "html",
-                        "type": "GET",
-                        "success": helpers.templateGetSuccess(templateId, callback),
-                        "error"  : helpers.templateGetError(templateId, templatePath, callback)
-                      };
-            $.trafficCop(options);
+    get: function(options, callback) {
+        var templateOptions = $.extend({}, infuser.defaults, (typeof options === "object" ? options : { templateId: options })),
+            template = this.store.getTemplate(templateOptions.templateId);
+        if(!template || $.inArray(templateOptions.templateId, errors) !== -1) {
+            templateOptions.url = helpers.getTemplatePath(templateOptions);
+            templateOptions.success = helpers.templateGetSuccess(templateOptions.templateId, callback);
+            templateOptions.error = helpers.templateGetError(templateOptions.templateId, templateOptions.url, callback);
+            $.trafficCop(templateOptions);
         }
         else {
             callback(template);
         }
     },
 
-    getSync: function(templateId) {
-        var template = this.store.getTemplate(templateId),
-            templatePath,
-            templateHtml,
-            options;
-        if(!template || $.inArray(templateId, errors) !== -1) {
-            templatePath = helpers.getTemplatePath(templateId);
+    getSync: function(options) {
+        var templateOptions = $.extend({}, infuser.defaults, (typeof options === "object" ? options : { templateId: options }), { async: false }),
+            template = this.store.getTemplate(templateOptions.templateId),
+            templateHtml;
+        if(!template || $.inArray(templateOptions.templateId, errors) !== -1) {
+            templateOptions.url = helpers.getTemplatePath(templateOptions);
             templateHtml = null;
-            options = {
-                        "async": false,
-                        "url":templatePath,
-                        "dataType": "html",
-                        "type": "GET",
-                        "success": function(response) { templateHtml = response;},
-                        "error": function(exception) {
-                            if($.inArray(templateId) === -1) {
-                                errors.push(templateId);
-                            }
-                            templateHtml = returnErrorTemplate("HTTP Status code: exception.status", templateId, templatePath);
-                        }
-                      };
-            $.ajax(options);
+            templateOptions.success = function(response) { templateHtml = response;};
+            templateOptions.error = function(exception) {
+                if($.inArray(templateOptions.templateId) === -1) {
+                    errors.push(templateOptions.templateId);
+                }
+                templateHtml = returnErrorTemplate("HTTP Status code: exception.status", templateOptions.templateId, templateOptions.url);
+            };
+            $.ajax(templateOptions);
             if(templateHtml === null) {
                 templateHtml = returnErrorTemplate("An unknown error occurred.", templateId, templatePath);
             }
             else {
-                this.store.storeTemplate(templateId, templateHtml);
-                template = this.store.getTemplate(templateId);
+                this.store.storeTemplate(templateOptions.templateId, templateHtml);
+                template = this.store.getTemplate(templateOptions.templateId);
             }
         }
         return template;
     },
 
     infuse: function(templateId, renderOptions) {
-        var self = this,
-            options = $.extend({}, self.defaults, renderOptions),
-            targetElement = typeof options.target === 'function' ? options.target(templateId) : options.target;
-        if(options.useLoadingTemplate) {
-            options.loadingTemplate.transitionIn(targetElement);
+        var templateOptions = $.extend({}, infuser.defaults, (typeof templateId === "object" ? templateId : renderOptions), (typeof templateId === "string" ? { templateId: templateId } : undefined )),
+            targetElement = typeof templateOptions.target === 'function' ? templateOptions.target(templateId) : templateOptions.target;
+        if(templateOptions.useLoadingTemplate) {
+            templateOptions.loadingTemplate.transitionIn(targetElement, templateOptions.loadingTemplate.content);
         }
-        self.get(templateId, function(template) {
+        infuser.get(templateOptions, function(template) {
             var _template = template;
-            options.preRender(targetElement, _template);
-            _template = options.bindingInstruction(_template, options.model);
-            if(options.useLoadingTemplate) {
-                options.loadingTemplate.transitionOut(targetElement);
+            templateOptions.preRender(targetElement, _template);
+            _template = templateOptions.bindingInstruction(_template, templateOptions.model);
+            if(templateOptions.useLoadingTemplate) {
+                templateOptions.loadingTemplate.transitionOut(targetElement);
             }
-            options.render(targetElement, _template);
-            options.postRender(targetElement);
+            templateOptions.render(targetElement, _template);
+            templateOptions.postRender(targetElement);
         });
     }
 };

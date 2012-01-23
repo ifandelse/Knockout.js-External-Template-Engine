@@ -3,7 +3,7 @@
         <img class="city-img" data-bind="attr: { src: img, alt: name }">
         <div class="city-facts">
             <em data-bind="text:name"></em>
-            <div data-bind="template: { name: 'stats'}"></div>
+            <div data-bind="template: { name: 'stats', templateUrl: 'templates/info'}"></div>
         </div>
         <span style="clear:both;"></span>
     </div>

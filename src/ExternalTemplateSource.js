@@ -1,8 +1,10 @@
-var ExternalTemplateSource = function(templateId) {
+var ExternalTemplateSource = function(templateId, options) {
     this.templateId = templateId;
     this.loaded = false;
     this.template = ko.observable(infuser.defaults.loadingTemplate.content);
     this.template.data = {};
+    this.options = options || {};
+    this.options.templateId = templateId;
 };
 
 ko.utils.extend(ExternalTemplateSource.prototype, {
@@ -30,7 +32,7 @@ ko.utils.extend(ExternalTemplateSource.prototype, {
 
     getTemplate: function() {
         var self = this;
-        infuser.get(self.templateId, function(tmpl) {
+        infuser.get(self.options, function(tmpl) {
             self.data("precompiled",null);
             self.template(tmpl);
             self.loaded = true;

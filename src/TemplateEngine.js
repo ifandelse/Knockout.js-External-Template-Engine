@@ -1,7 +1,7 @@
 var KoExternalTemplateEngine = function(koEngineType) {
     var engine = koEngineType ? new koEngineType() : new ko.nativeTemplateEngine();
     engine.templates = {};
-    engine.makeTemplateSource = function(template) {
+    engine.makeTemplateSource = function(template, bindingContext, options) {
         // Named template
         if (typeof template == "string") {
             var elem = document.getElementById(template);
@@ -9,7 +9,7 @@ var KoExternalTemplateEngine = function(koEngineType) {
                 return new ko.templateSources.domElement(elem);
             else {
                 if(!engine.templates[template]) {
-                    engine.templates[template] = new ExternalTemplateSource(template);
+                    engine.templates[template] = new ExternalTemplateSource(template, options);
                 }
                 return engine.templates[template];
             }
@@ -20,6 +20,12 @@ var KoExternalTemplateEngine = function(koEngineType) {
         }
         
     };
+
+    engine.renderTemplate = function (template, bindingContext, options) {
+        var templateSource = engine.makeTemplateSource(template, bindingContext, options);
+        return engine.renderTemplateSource(templateSource, bindingContext, options);
+    };
+
     return engine;
 };
 

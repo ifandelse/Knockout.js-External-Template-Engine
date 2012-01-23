@@ -1,6 +1,6 @@
 $(function(){
     
-    infuser.config.templateUrl = "templates";
+    infuser.defaults.templateUrl = "templates";
 
     var State = function(name, region, cities) {
             return {
@@ -15,7 +15,7 @@ $(function(){
             this.img = ko.dependentObservable(function(){
                 return "img/" + this.name() + ".jpg";
             }, this);
-            this.template = ko.observable("stat_view"),
+            this.template = ko.observable("stat_view");
             this.toggleTemplate= function() {
                 var self = this;
                 if(self.template() === 'stat_view') {
