@@ -22,7 +22,7 @@ The dependencies listed above are in the ext folder under in the repository.
     * You can specify a template file prefix (like "template_") by setting the infuser.defaults.templatePrefix value
     * You can specify a different URL/path to the template files if you prefer to keep them in a different directory than the requesting HTML file by setting the infuser.defaults.templateUrl value.
     * You can override the default loading template html by providing your own custom html string to the infuser.defaults.loadingTemplate.content property.
-    * You can override the default infuser options in any template binding.  For example: `<div data-bind="template: { name: 'stats', templateUrl: 'templates/info'}"></div>`
+    * You can override the default infuser options in any **native** template binding (jquery-tmpl engine does not support overrides at this point).  For example: `<div data-bind="template: { name: 'stats', templateUrl: 'templates/info'}"></div>`
 
 See the example folder in the project for more information.  You can run the example by running "node nodetesthost.js" at the root of the repository then browsing to example/native/index.html(assuming you have Node.js installed).
 You can also use IIS on Windows if you make the root of the repository a virtual directory and then browse to example/native/index.html.
