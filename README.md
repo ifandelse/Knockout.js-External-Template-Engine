@@ -1,3 +1,7 @@
+#-->{ BREAKING API CHANGE }<--
+This project takes a depdency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
+
+
 # What Is It
 
 The Knockout.js External Template Engine extends Knockout.js to allow you to load templates asynchronously from a remote resource.
@@ -18,10 +22,10 @@ The dependencies listed above are in the ext folder under in the repository.
 * By referencing koExternalTemplateEngine.js, you've automatically overridden the default Knockout.js template engine and added a new template source
 * Configure the koExternalTemplateEngine:
     * by default, if your external template files have ".html" as the file extension and live in the same directory as the requesting HTML file, then you can simply reference them by name (for example, "CustomerTemplate" will call down a CustomerTemplate.html file).
-    * You can specify a template file suffix (like ".tpl.html") by setting the infuser.defaults.templateSuffix value
-    * You can specify a template file prefix (like "template_") by setting the infuser.defaults.templatePrefix value
-    * You can specify a different URL/path to the template files if you prefer to keep them in a different directory than the requesting HTML file by setting the infuser.defaults.templateUrl value.
-    * You can override the default loading template html by providing your own custom html string to the infuser.defaults.loadingTemplate.content property.
+    * You can specify a template file suffix (like ".tpl.html") by setting the `infuser.defaults.templateSuffix` value
+    * You can specify a template file prefix (like "template_") by setting the `infuser.defaults.templatePrefix` value
+    * You can specify a different URL/path to the template files if you prefer to keep them in a different directory than the requesting HTML file by setting the `infuser.defaults.templateUrl` value.
+    * You can override the default loading template html by providing your own custom html string to the `infuser.defaults.loadingTemplate.content` property.
     * You can override the default infuser options in any **native** template binding (jquery-tmpl engine does not support overrides at this point).  For example: `<div data-bind="template: { name: 'stats', templateUrl: 'templates/info'}"></div>`
     * You can override `$.ajax` options two ways:
         * Set defaults via `infuser.defaults.ajax` (example: `infuser.defaults.ajax.cache = false`)
