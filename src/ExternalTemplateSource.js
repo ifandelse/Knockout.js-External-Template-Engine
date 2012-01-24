@@ -6,11 +6,11 @@ var ExternalTemplateSource = function(templateId, options) {
     self.template.data = {};
     self.options = options || {};
     self.options.templateId = templateId;
-    if(options && options.afterRender) {
-        origAfterRender = options.afterRender;
-        options.afterRender = function() {
+    if(self.options && self.options.afterRender) {
+        origAfterRender = self.options.afterRender;
+        self.options.afterRender = function() {
             if(self.loaded) {
-                origAfterRender.apply(options, arguments);
+                origAfterRender.apply(self.options, arguments);
             }
         }
     }
