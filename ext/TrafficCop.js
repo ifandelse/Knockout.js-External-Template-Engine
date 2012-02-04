@@ -1,4 +1,10 @@
 (function($, undefined) {
+/*
+    TrafficCop
+    Author: Jim Cowart
+    License: Dual licensed MIT (http://www.opensource.org/licenses/mit-license) & GPL (http://www.opensource.org/licenses/gpl-license)
+    Version 0.3.0
+*/
 
 var inProgress = {};
 
@@ -8,31 +14,14 @@ $.trafficCop = function(url, options) {
         reqOptions = $.extend(true, options, { url: url });
     }
     key = JSON.stringify(reqOptions);
-    if(inProgress[key]) {
-        inProgress[key].successCallbacks.push(reqOptions.success);
-        inProgress[key].errorCallbacks.push(reqOptions.error);
-        return;
+    if (key in inProgress) {
+        for (i in {success: 1, error: 1, complete: 1}) {
+            inProgress[key][i](reqOptions[i]);
+        }
+    } else {
+        inProgress[key] = $.ajax(reqOptions).always(function () { delete inProgress[key]; });
     }
-
-    var remove = function() {
-            delete inProgress[key];
-        },
-        traffic = {
-            successCallbacks: [reqOptions.success],
-            errorCallbacks: [reqOptions.error],
-            success: function() {
-                var args = arguments;
-                $.each($(inProgress[key].successCallbacks), function(idx,item){ item.apply(null, args); });
-                remove();
-            },
-            error: function() {
-                var args = arguments;
-                $.each($(inProgress[key].errorCallbacks), function(idx,item){ item.apply(null, args); });
-                remove();
-            }
-        };
-    inProgress[key] = $.extend(true, {}, reqOptions, traffic);
-    return $.ajax(inProgress[key]);
+    return inProgress[key];
 };
 
 })(jQuery);

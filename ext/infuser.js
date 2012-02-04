@@ -3,7 +3,7 @@
     infuser.js
     Author: Jim Cowart
     License: Dual licensed MIT (http://www.opensource.org/licenses/mit-license) & GPL (http://www.opensource.org/licenses/gpl-license)
-    Version 0.1.0
+    Version 0.2.0
 */
 var hashStorage = {
     templates: {},
@@ -141,14 +141,14 @@ var infuser = {
     },
 
     getSync: function(options) {
-        var templateOptions = $.extend({}, infuser.defaults, (typeof options === "object" ? options : { templateId: options }), { async: false }),
+        var templateOptions = $.extend({}, infuser.defaults, (typeof options === "object" ? options : { templateId: options }), { ajax: { async: false } }),
             template,
             templateHtml;
         templateOptions.ajax.url = helpers.getTemplatePath(templateOptions);
         template = infuser.store.getTemplate(templateOptions.ajax.url);
         if(!template || $.inArray(templateOptions.ajax.url, errors) !== -1) {
             templateHtml = null;
-            templateOptions.ajax.success = function(response) { templateHtml = response;};
+            templateOptions.ajax.success = function(response) { templateHtml = response; };
             templateOptions.ajax.error = function(exception) {
                 if($.inArray(templateOptions.ajax.url) === -1) {
                     errors.push(templateOptions.ajax.url);
@@ -157,7 +157,7 @@ var infuser = {
             };
             $.ajax(templateOptions.ajax);
             if(templateHtml === null) {
-                templateHtml = returnErrorTemplate("An unknown error occurred.", templateId, templateOptions.ajax.url);
+                templateHtml = returnErrorTemplate("An unknown error occurred.", templateOptions.templateId, templateOptions.ajax.url);
             }
             else {
                 infuser.store.storeTemplate(templateOptions.ajax.url, templateHtml);
