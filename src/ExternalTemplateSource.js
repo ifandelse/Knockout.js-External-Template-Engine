@@ -4,7 +4,7 @@ var ExternalTemplateSource = function(templateId, options) {
     self.loaded = false;
     self.template = ko.observable(infuser.defaults.useLoadingTemplate ? infuser.defaults.loadingTemplate.content : undefined);
     self.template.data = {};
-    self.options = options || {};
+    self.options = ko.utils.extend({},options);
     self.options.templateId = templateId;
     if(self.options && self.options.afterRender) {
         origAfterRender = self.options.afterRender;
