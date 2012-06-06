@@ -3,10 +3,9 @@
     "output": "lib",
     "lint": {},
     "uglify": {},
-    "gzip": {},
-    "extensions": { "uglify": "min", "gzip": "gz" },
-    "wrap": {
-        "prefix": "(function(global, ko, jQuery, infuser, undefined) {",
-        "suffix": "})(window, ko, jQuery, infuser);"
+    "extensions": { "uglify": "min" },
+    "host": true,
+    "hosts" : {
+        "/" : "./"
     }
 }

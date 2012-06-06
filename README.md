@@ -1,6 +1,4 @@
-#-->{ BREAKING API CHANGE }<--
-This project takes a depdency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
-
+# Version 2.0.4
 
 # What Is It
 
@@ -15,6 +13,8 @@ It currently supports both native and jquery templates.  Special thanks to Ryan 
 * infuser
 
 The dependencies listed above are in the ext folder under in the repository.
+
+### Note: This project takes a depdency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
 
 # How To Use
 
@@ -31,19 +31,22 @@ The dependencies listed above are in the ext folder under in the repository.
         * Set defaults via `infuser.defaults.ajax` (example: `infuser.defaults.ajax.cache = false`)
         * Set a value in-line via a template binding: `<div data-bind="template: { name: 'stats', templateUrl: 'templates/info', ajax: { cache: false } }"></div>`
 
-See the example folder in the project for more information.  You can run the example by running "node nodetesthost.js" at the root of the repository then browsing to example/native/index.html(assuming you have Node.js installed).
-You can also use IIS on Windows if you make the root of the repository a virtual directory and then browse to example/native/index.html.
+See the example folder in the project for more information (& see below for how to run the examples).
+You can also use IIS on Windows if you make the root of the repository a virtual directory and then browse to example/{subfolder of choice}.
 
-# Build and Testing Dependencies
-This project uses anvil.js (see http://github.com/arobson/anvil.js) for it's build/combine/minify/etc.  To use anvil, you will need Node.js and npm.
-Two builds are in this project:
+# Build Dependencies
+This project uses [anvil.js](http://appendTo.github.com/anvil.js) for it's build/combine/minify/etc.  To use anvil, you will need Node.js and npm.
+Two build outputs are produced in this project:
 
-* The default build (driven by the build.json file) outputs the koExternalTemplateEngine.js, koExternalTemplateEngine.min.js & koExternalTemplateEngine.min.gz.js files.  Using this file will require you to include TrafficCop and infuser as separate script includes in your page.
-* The "combined" build (driven by the build_combine.json file) outputs koExternalTemplateEngine_all.js, koExternalTemplateEngine_all.min.js & koExternalTemplateEngine_all.min.gz.js - which includes TrafficCop and infuser as part of the output.
+* The default build creates the koExternalTemplateEngine.js & koExternalTemplateEngine.min.js files.  Using either of these files will require you to include TrafficCop and infuser as separate script includes in your page.
+* The "combined" build creates koExternalTemplateEngine_all.js & koExternalTemplateEngine_all.min.js - which includes TrafficCop and infuser as part of the output.
 
-To run the build from the command line you do the following (at the project root):
+To run the build from the command line you do the following (at the project root): `anvil -b`
 
-* For the default build: anvil -b 
-* For the combined build : anvil -b "build_combined.json"
+To run the examples, run `anvil --host`.  Examples will be accessible by going to http://localhost:3080/example under the following sub-folders:
 
-The test host also requires Node.js and the "express" package (express is located in the node_modules folder).
+* jquery
+* jqueryWithOptions
+* native
+* native-nested-alt-locations
+* native2
