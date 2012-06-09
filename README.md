@@ -1,4 +1,4 @@
-# Version 2.0.4
+# Version 2.0.5
 
 # What Is It
 
@@ -36,10 +36,11 @@ You can also use IIS on Windows if you make the root of the repository a virtual
 
 # Build Dependencies
 This project uses [anvil.js](http://appendTo.github.com/anvil.js) for it's build/combine/minify/etc.  To use anvil, you will need Node.js and npm.
-Two build outputs are produced in this project:
+Three build outputs are produced in this project:
 
-* The default build creates the koExternalTemplateEngine.js & koExternalTemplateEngine.min.js files.  Using either of these files will require you to include TrafficCop and infuser as separate script includes in your page.
-* The "combined" build creates koExternalTemplateEngine_all.js & koExternalTemplateEngine_all.min.js - which includes TrafficCop and infuser as part of the output.
+1) The default build creates the koExternalTemplateEngine.js & koExternalTemplateEngine.min.js files.  Using either of these files will require you to include TrafficCop and infuser as separate script includes in your page.
+2) The "combined" build creates koExternalTemplateEngine_all.js & koExternalTemplateEngine_all.min.js - which includes TrafficCop and infuser as part of the output.
+3) The "amd" build creates an amd-style module of just the koExternalTemplateEngine.js file - creating koExternalTemplateEngine-amd.js & koExternalTemplateEngine-amd.min.js.
 
 To run the build from the command line you do the following (at the project root): `anvil -b`
 
@@ -47,6 +48,12 @@ To run the examples, run `anvil --host`.  Examples will be accessible by going t
 
 * jquery
 * jqueryWithOptions
+* native
+* native-nested-alt-locations
+* native2
+
+Examples using the AMD module version can be found under http://localhost:3080/example/amd, in the following folders:
+
 * native
 * native-nested-alt-locations
 * native2

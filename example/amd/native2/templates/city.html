@@ -1,0 +1,11 @@
+<li class="city-container">
+    <div>
+        <img class="city-img" data-bind="attr: { src: img, alt: name }">
+        <div class="city-facts">
+            <em data-bind="text:name"></em>
+            <!-- Not that we're not caching the stats template. This is to demonstrate passing ajax options -->
+            <div data-bind="template: { name: 'stats', templateUrl: 'templates/info', ajax: { cache: false } }"></div>
+        </div>
+        <span style="clear:both;"></span>
+    </div>
+</li>

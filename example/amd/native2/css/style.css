@@ -1,0 +1,62 @@
+body {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+}
+
+h3 {
+    width: 500px;
+    text-align: center;
+    background-color: silver;
+    color: white;
+    line-height: 35px;
+    border-radius: 8px;
+}
+
+ul {
+    list-style: none none;
+}
+
+.state-container {
+    margin-bottom: 75px;
+    clear:both;
+}
+
+.city-container {
+    clear:both;
+    margin-bottom: 35px;
+}
+
+.city-img {
+    float:left;
+    height:100px;
+    max-width: 135px;
+}
+
+.city-facts {
+    width:100px;
+    margin-left:170px;
+}
+
+.stat-container {
+    margin-top: 15px;
+    width:600px;
+}
+
+.stat {
+    font-size: 10pt;
+}
+
+.stat-name {
+    float:left;
+    width:75px;
+    text-align: right;
+}
+
+div.stat-value {
+    margin-left: 100px;
+    width: 200px;
+}
+
+input.stat-value {
+    margin-left: 20px;
+    width: 100px;
+}

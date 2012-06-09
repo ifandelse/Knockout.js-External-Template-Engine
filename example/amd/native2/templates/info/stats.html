@@ -1,0 +1,11 @@
+<ul data-bind="foreach: stats">
+    <li class="stat-container" data-bind="ifnot: editing">
+        <div class="stat stat-name" data-bind="text:name"></div>
+        <div class="stat stat-value" data-bind="text:value, click: toggleEdit "></div>
+    </li>
+
+    <li class="stat-container" data-bind="if: editing">
+        <span class="stat stat-name" data-bind="text:name"></span>
+        <input class="stat stat-value"type="text" data-bind="value: value"><input type="button" value="save" data-bind="click: toggleEdit">
+    </li>
+</ul>

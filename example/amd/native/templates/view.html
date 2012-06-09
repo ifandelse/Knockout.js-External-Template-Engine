@@ -1,0 +1,5 @@
+<li>
+    <span data-bind="text: name"></span>
+    <ul data-bind="template: { name: 'city_view', templatePrefix: 'tmpl_', templateUrl: 'templates/city', foreach: cities, afterRender: afterRenderCallback }">
+    </ul>
+</li>

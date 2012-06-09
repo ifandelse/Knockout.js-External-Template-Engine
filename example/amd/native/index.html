@@ -1,0 +1,12 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Knockout.js Native External Templates Example</title>
+	<script data-main="js/main" src="../../../ext/require-jquery.js"></script>
+</head>
+<body>
+    Show Edit Templates: <input type="checkbox" data-bind="checked: isEditable" />
+    <ul data-bind="template: { name: whichTemplateToUse, foreach: items }"></ul>
+</body>
+</html>
