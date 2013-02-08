@@ -14,7 +14,7 @@ It currently supports both native and jquery templates.  Special thanks to Ryan 
 
 The dependencies listed above are in the ext folder under in the repository.
 
-### Note: This project takes a depdency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
+### Note: This project takes a dependency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
 
 # How To Use
 
