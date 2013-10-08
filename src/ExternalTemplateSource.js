@@ -45,6 +45,14 @@ ko.utils.extend(ExternalTemplateSource.prototype, {
             self.data("precompiled",null);
             self.template(tmpl);
             self.loaded = true;
+            
+            if( ko.isWriteableObservable( self.options.loaded ) ) self.options.loaded(true); // this alows to pass a writeable observable to the template binding in order to get notified when the template was loaded
+            // example: 
+            // <script> myWriteableObservable = ko.observable( false ); </script>
+            // <div data-bind="template: {name: 'mytemplate', loaded: myWriteableObservable } "></div>
+            // <div data-bind="visible: myWriteableObservable">Template was loaded</div>
+            
+            
         });
     }
 });
