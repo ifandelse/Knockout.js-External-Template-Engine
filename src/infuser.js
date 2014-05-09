@@ -97,7 +97,7 @@ var infuser = {
             "type": "GET"
         },
         // infuse() specific options - NOT used for "get" or "getSync"
-        target:  function(templateId) { return "#" + templateId }, // DEFAULT MAPPING
+        target:  function(templateId) { return "#" + templateId; }, // DEFAULT MAPPING
         loadingTemplate:    {
                                 content:        '<div class="infuser-loading">Loading...</div>',
                                 transitionIn:   function(target, content) {

@@ -1,11 +1,18 @@
 # Version 2.0.5
 
-# What Is It
+________
+##Project Status Update (tl;dr - Stalled! Do you want it?)
+My sincerest apologies to everyone who has been waiting on some kind of response to issues and/or PRs on this project. Writing open source software is something I love to do - but the unfortunate reality is that I only have so much time to spread between my various projects after I focus on the [things](http://instagram.com/p/ZN_0-DCAby/) [that](http://instagram.com/p/aXfZ_AiAT2/) [matter](http://instagram.com/p/jtDCDgCAVE/) [the most](http://instagram.com/p/nYXz4cCAbP/) to me. I'm no longer using KnockoutJS on a daily basis (haven't been for a while), and if I were on a KO project, I'd be using [RequireJS and an approach like what my friend Ryan Niemeyer recommends](http://www.knockmeout.net/2013/05/knockout-amd-helpers-plugin.html) (to load external templates). This template engine extension was created for an *internal intranet* site where multiple round trips and non-bundling of dependencies wasn't really a problem. If you are building public facing sites, I *highly* recommend looking at Ryan's recommendations, and use a more substantial loader & module setup (like RequireJS), or have a build step that concats your templates into your host page(s) before deployment, etc.
+
+If you are an *active* member of the KO OSS "community", and want to take over this project, I'm happy to hand it off to you. Just get in touch with me on [twitter](https://twitter.com/ifandelse) to start the conversation.
+________
+
+## What Is It
 
 The Knockout.js External Template Engine extends Knockout.js to allow you to load templates asynchronously from a remote resource.
 It currently supports both native and jquery templates.  Special thanks to Ryan Niemeyer for the assistance in getting jquery templates working in this version of the plugin.
 
-# Prerequisites
+## Prerequisites
 * Knockout.js 2.0 or later (you will need to look at the tagged 1.0 version if you need support for older Knockout.js)
 * jQuery 1.5 or later
 * jquery-tmpl *only if you are using jquery templates*
@@ -14,9 +21,9 @@ It currently supports both native and jquery templates.  Special thanks to Ryan 
 
 The dependencies listed above are in the ext folder under in the repository.
 
-### Note: This project takes a depdency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
+> Note: This project takes a depdency on a library called infuser.  infuser no longer has an `infuser.config` object.  It has been merged with `infuser.defaults`.
 
-# How To Use
+## How To Use
 
 * In your HTML file, reference jQuery, jquery-tmpl (if you're using jquery templates), knockout.js, TrafficCop, infuser and the koExternalTemplateEngine.js file
 * By referencing koExternalTemplateEngine.js, you've automatically overridden the default Knockout.js template engine and added a new template source
@@ -34,7 +41,7 @@ The dependencies listed above are in the ext folder under in the repository.
 See the example folder in the project for more information (& see below for how to run the examples).
 You can also use IIS on Windows if you make the root of the repository a virtual directory and then browse to example/{subfolder of choice}.
 
-# Build Dependencies
+## Build Dependencies
 This project uses [anvil.js](http://appendTo.github.com/anvil.js) for it's build/combine/minify/etc.  To use anvil, you will need Node.js and npm.
 Three build outputs are produced in this project:
 

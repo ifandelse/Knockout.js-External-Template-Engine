@@ -1,11 +1,12 @@
 {
-    "source": "src",
-    "output": "lib",
-    "lint": {},
-    "uglify": {},
-    "extensions": { "uglify": "min" },
-    "host": true,
-    "hosts" : {
-        "/" : "./"
-    }
+    "anvil.uglify" : {},
+    "anvil.http" : {
+        "paths" : {
+            "/" : "./"
+        }
+    },
+    "anvil.jshint" : {
+        "all" : true
+    },
+    "dependencies" : [ "anvil.http", "anvil.uglify", "anvil.jshint" ]
 }

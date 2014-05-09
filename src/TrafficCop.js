@@ -15,7 +15,7 @@ $.trafficCop = function(url, options) {
     }
     key = JSON.stringify(reqOptions);
     if (key in inProgress) {
-        for (i in {success: 1, error: 1, complete: 1}) {
+        for (var i in {success: 1, error: 1, complete: 1}) {
             inProgress[key][i](reqOptions[i]);
         }
     } else {

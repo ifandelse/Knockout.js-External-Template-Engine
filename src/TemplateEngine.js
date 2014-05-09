@@ -31,7 +31,7 @@ var KoExternalTemplateEngine = function(koEngineType) {
 
 ko.KoExternalTemplateEngine = KoExternalTemplateEngine;
 
-if (jQuery['tmpl'] && jQuery['tmpl']['tag']['tmpl']['open'].toString().indexOf('__') >= 0) {
+if (jQuery.tmpl && jQuery.tmpl.tag.tmpl.open.toString().indexOf('__') >= 0) {
     ko.setTemplateEngine(new KoExternalTemplateEngine(ko.jqueryTmplTemplateEngine));
 }
 else {

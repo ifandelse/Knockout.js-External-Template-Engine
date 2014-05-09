@@ -12,7 +12,7 @@ var ExternalTemplateSource = function(templateId, options) {
             if(self.loaded) {
                 origAfterRender.apply(self.options, arguments);
             }
-        }
+        };
     }
 };
 
