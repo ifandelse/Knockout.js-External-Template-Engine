@@ -11,3 +11,4 @@ desktop.ini
 .idea
 *.anvil*
 *node_modules*
+.DS_Store

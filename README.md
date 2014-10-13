@@ -1,10 +1,14 @@
 # Version 2.0.5
 
+(MIT License)
 ________
-##Project Status Update (tl;dr - Stalled! Do you want it?)
+##THIS PROJECT HAS BEEN **RETIRED**!
+###(Do you want it?)
 My sincerest apologies to everyone who has been waiting on some kind of response to issues and/or PRs on this project. Writing open source software is something I love to do - but the unfortunate reality is that I only have so much time to spread between my various projects after I focus on the [things](http://instagram.com/p/ZN_0-DCAby/) [that](http://instagram.com/p/aXfZ_AiAT2/) [matter](http://instagram.com/p/jtDCDgCAVE/) [the most](http://instagram.com/p/nYXz4cCAbP/) to me. I'm no longer using KnockoutJS on a daily basis (haven't been for a while), and if I were on a KO project, I'd be using [RequireJS and an approach like what my friend Ryan Niemeyer recommends](http://www.knockmeout.net/2013/05/knockout-amd-helpers-plugin.html) (to load external templates). This template engine extension was created for an *internal intranet* site where multiple round trips and non-bundling of dependencies wasn't really a problem. If you are building public facing sites, I *highly* recommend looking at Ryan's recommendations, and use a more substantial loader & module setup (like RequireJS), or have a build step that concats your templates into your host page(s) before deployment, etc.
 
 If you are an *active* member of the KO OSS "community", and want to take over this project, I'm happy to hand it off to you. Just get in touch with me on [twitter](https://twitter.com/ifandelse) to start the conversation.
+
+You can read the long-overdue blog on retiring this project here: [Know When to Walk Away](http://ifandelse.com/know-when-to-walk-away/).
 ________
 
 ## What Is It
